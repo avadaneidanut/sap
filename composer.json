@@ -1,0 +1,21 @@
+{
+    "name": "avadaneidanut/sap",
+    "description": "SAP features integrated with Laravel",
+    "authors": [
+        {
+            "name": "Avadanei Danut",
+            "email": "danut@worldit.info"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.5.9",
+        "ext-sapnwrfc": "*",
+        "laravel/framework": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Adanut\\Sap\\": "src/Adanut/Sap/"
+        }
+    }
+}

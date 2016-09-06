@@ -29,14 +29,14 @@ class Server
      */
     public function __construct(array $config)
     {
-        if (array_diff($this->required, $config) != []) {
+        if (array_diff($this->required, array_keys($config)) != []) {
             throw new Exception("Missing required attributes");
         }
 
         $this->config = $config;
     }
 
-    public function config()
+    public function toArray()
     {
         return $this->config;
     }

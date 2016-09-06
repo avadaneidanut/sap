@@ -1,0 +1,11 @@
+{
+    "providers": [
+        "Adanut\\Sap\\SapServiceProvider"
+    ],
+    "aliases": [
+        {
+            "alias": "Sap",
+            "facade": "Adanut\\Sap\\Facades\\Sap"
+        }
+    ]
+}

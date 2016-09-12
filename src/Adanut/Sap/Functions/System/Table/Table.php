@@ -148,6 +148,25 @@ class Table extends FunctionModule
             return array_combine($columns, $values);
         });
 
+        // Apply transformations in corelation with fields type.
+        $fields->each(function ($field) use ($table) {
+            // Transform dates.
+            if ($field['TYPE'] === 'D') {
+                $table->transform(function ($row) use($field) {
+                    if ($row[$field['FIELDNAME']] == '00000000') {
+                        $row[$field['FIELDNAME']] = null;
+                    } else {
+                        try {
+                            $row[$field['FIELDNAME']] = Carbon::createFromFormat('Ymd', $row[$field['FIELDNAME']]);
+                        } catch (\InvalidArgumentException $e) {
+                            $row[$field['FIELDNAME']] = null;
+                        }
+                    }
+                    return $row;
+                });
+            }
+        });
+
         return $table;
     }
 

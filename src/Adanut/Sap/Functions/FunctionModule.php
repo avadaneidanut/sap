@@ -157,10 +157,10 @@ class FunctionModule
         try {
             return $callback();
         }
-        catch (\SAPNWRFC\FunctionCallException $e) {
+        catch (\Exception $e) {
             throw new FunctionCallException($e);
         }
-        catch (\sapnwrfcCallException $e) {
+        catch (\RuntimeException $e) {
             throw new FunctionCallException($e);
         }
     }

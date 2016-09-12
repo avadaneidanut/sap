@@ -9,11 +9,11 @@ class Arr
     /**
      * UTF8 encode array.
      *
-     * @param  array $input
+     * @param  array|string $input
      * 
-     * @return array
+     * @return array|string
      */
-    public function uft8ize(array $input)
+    public function utf8ize($input)
     {
         if (is_array($input)) {
             foreach ($input as $key => $value) {

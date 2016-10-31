@@ -2,10 +2,11 @@
 
 namespace Adanut\Sap;
 
-use Illuminate\Support\Facades\Config;
-use Adanut\Sap\Communication\Server;
 use Adanut\Sap\Communication\Connection;
+use Adanut\Sap\Communication\Server;
 use Adanut\Sap\Exceptions\ConnectionException;
+use Adanut\Sap\Exceptions\FunctionCallException;
+use Illuminate\Support\Facades\Config;
 
 class Sap
 {   
@@ -26,8 +27,11 @@ class Sap
     public function connection($name)
     {
         if (isset($this->connections[$name])) {
-            if ($this->connections[$name]->ping()) {
+            try {
+                $this->connections[$name]->ping();
                 return $this->connections[$name];
+            } catch (\Exception $e) {
+                // Do nothing.
             }
         }
         return $this->open($name);
@@ -59,6 +63,25 @@ class Sap
         foreach ($this->connections as $connection) {
             $connection->close();
         }
+    }
+
+    /**
+     * Apply a callback over all connections.
+     * 
+     * @param  callable $callback
+     * @return array
+     */
+    public function iterator(callable $callback)
+    {
+        $result = [];
+        foreach (array_keys(Config::get('sap.connections')) as $name) {
+            try {
+                $result[$name] = $callback($this->connection($name), $name);
+            } catch (FunctionCallException $e) {
+                $result[$name] = $e;                
+            }
+        }
+        return $result;
     }
 
     /**

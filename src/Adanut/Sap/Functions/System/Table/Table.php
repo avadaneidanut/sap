@@ -2,10 +2,11 @@
 
 namespace Adanut\Sap\Functions\System\Table;
 
-use Carbon\Carbon;
-use Adanut\Sap\Functions\FunctionModule;
 use Adanut\Sap\Communication\Connection;
+use Adanut\Sap\Facades\Arr;
+use Adanut\Sap\Functions\FunctionModule;
 use Adanut\Sap\Functions\System\Table\QueryBuilder;
+use Carbon\Carbon;
 
 class Table extends FunctionModule
 {
@@ -127,7 +128,7 @@ class Table extends FunctionModule
     public function parse($result)
     {
         // Clear all that spaces.
-        $result = array_trim($result);
+        $result = Arr::trim($result);
 
         // Get DATA and FIELDS SAP tables.
         $data   = collect($result['DATA']);
@@ -144,7 +145,7 @@ class Table extends FunctionModule
         // Explode raw data rows and combine with columns.
         $table = $data->pluck('WA')->transform(function($item) use ($columns) 
         {
-            $values = array_trim(explode($this->parameters['DELIMITER'], $item));
+            $values = Arr::trim(explode($this->parameters['DELIMITER'], $item));
             return array_combine($columns, $values);
         });
 
